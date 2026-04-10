@@ -15,20 +15,20 @@ public class SlickCollision : MonoBehaviour
     }
 
 
-    void OnCollisionStay(Collision collision)
+    void OnTriggerEnter(Collider collider)
     {
         isOnOil = true;
 
-        if (collision.gameObject.tag == "Player"){
+        if (collider.gameObject.tag == "Player"){
 
         }
-        if (collision.gameObject.tag == "Enemy")
+        if (collider.gameObject.tag == "Enemy")
         {
             slow = true;
         }
     }
 
-    void OnCollisionExit(Collision collision)
+    void OnTriggerExit(Collider collider)
     {
         isOnOil = false;
         slow = false;

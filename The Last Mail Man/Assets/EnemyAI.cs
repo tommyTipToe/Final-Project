@@ -74,13 +74,11 @@ public class EnemyAI : MonoBehaviour{
             speed = speed / 2;
             locked = true;
         }
-        Debug.Log(speed);
 
     }
 
     public void notSlowed(){
         speed = speed * 2;
         locked = false;
-        Debug.Log(speed);
     }
 }
