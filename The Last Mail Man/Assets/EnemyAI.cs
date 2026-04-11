@@ -12,8 +12,11 @@ public class EnemyAI : MonoBehaviour{
     private GameObject player;
     private int currentLocation = 0;
     private State state = State.WANDERING;
-    private bool locked = false;
     private float speed = 7.0f;
+    private float fast = 7.0f;
+    private float slow = 3.5f;
+    private float sightRange = 15f;
+    private float fieldOfView = 90f;
 
 
     void Start(){
@@ -28,14 +31,23 @@ public class EnemyAI : MonoBehaviour{
 
 
     void Update(){
-        float distance = Vector3.Distance(transform.position, player.transform.position);
+        Vector3 directionToPlayer = player.transform.position - transform.position;
+        float angle = Vector3.Angle(transform.forward, directionToPlayer);
+        if (angle < fieldOfView / 2)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, directionToPlayer, out hit, sightRange))
+            {
+                if (hit.transform == player.transform)
+                {
+                    StartChasing();
+                }
 
-        if (distance < 15f){
-            StartChasing();
+            }else{
+                StartWandering();
+            }
         }
-        else if (distance >= 15f){
-            StartWandering();
-        }
+
         if (state == State.WANDERING && nav.remainingDistance < 0.6f){
             nav.SetDestination(locations[++currentLocation % locations.Length].transform.position);
         }
@@ -48,12 +60,14 @@ public class EnemyAI : MonoBehaviour{
 
     void StartChasing(){
         if (state is State.CHASING) return;
+        fieldOfView = 360f;
         SetState(State.CHASING);
     }
 
 
     void StartWandering(){
         SetState(State.WANDERING);
+        fieldOfView = 90f;
         nav.speed = speed;
         nav.SetDestination(locations[currentLocation % locations.Length].transform.position);
     }
@@ -62,6 +76,7 @@ public class EnemyAI : MonoBehaviour{
     void UpdateChasing(){
         nav.SetDestination(player.transform.position);
         nav.speed = speed;
+        Debug.Log(speed);
     }
 
     void SetState(State newState){
@@ -70,15 +85,10 @@ public class EnemyAI : MonoBehaviour{
     }
 
     public void slowed(){
-        if (!locked) {
-            speed = speed / 2;
-            locked = true;
-        }
-
+        speed = slow;
     }
 
     public void notSlowed(){
-        speed = speed * 2;
-        locked = false;
+        speed = fast;
     }
 }
