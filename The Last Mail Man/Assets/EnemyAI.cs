@@ -43,12 +43,13 @@ public class EnemyAI : MonoBehaviour{
                     StartChasing();
                 }
 
-            }else{
-                StartWandering();
+
             }
+        }else{
+            StartWandering();
         }
 
-        if (state == State.WANDERING && nav.remainingDistance < 0.6f){
+            if (state == State.WANDERING && nav.remainingDistance < 0.6f){
             nav.SetDestination(locations[++currentLocation % locations.Length].transform.position);
         }
         if (state == State.CHASING){
@@ -76,7 +77,6 @@ public class EnemyAI : MonoBehaviour{
     void UpdateChasing(){
         nav.SetDestination(player.transform.position);
         nav.speed = speed;
-        Debug.Log(speed);
     }
 
     void SetState(State newState){

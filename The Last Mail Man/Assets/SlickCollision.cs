@@ -41,6 +41,7 @@ public class SlickCollision : MonoBehaviour
         {
             if (slow)
             {
+                
                 enemyAI.slowed();
             }
         }
