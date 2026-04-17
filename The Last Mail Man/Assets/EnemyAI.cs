@@ -1,36 +1,47 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 
 public class EnemyAI : MonoBehaviour{
     enum State { WANDERING, CHASING }
 
-    [SerializeField] private GameObject[] locations;
+    private GameObject[] locations;
 
     private NavMeshAgent nav;
     private GameObject player;
     private int currentLocation = 0;
     private State state = State.WANDERING;
-    private float speed = 7.0f;
-    private float fast = 7.0f;
+    private float speed = 7f;
+    private float fast = 7f;
     private float slow = 3.5f;
     private float sightRange = 15f;
     private float fieldOfView = 90f;
 
-
-    void Start(){
-        nav = GetComponent<NavMeshAgent>();
-        player = GameObject.Find("ExamplePlayer");
-        locations = new GameObject[]{
-            GameObject.Find("Target1"),
-            GameObject.Find("Target2"),
-        };
+    public void setLocations(string[] newLocaitons){
+        List<GameObject> tempLocations = new List<GameObject> { };
+        for (int i = 0; i < newLocaitons.Length; i++){
+            tempLocations.Add(GameObject.Find(newLocaitons[i]));
+        }
+        locations = tempLocations.ToArray();
         nav.SetDestination(locations[0].transform.position);
+    }
+
+    void Awake(){
+        nav = GetComponent<NavMeshAgent>();
+    }
+    void Start(){
+        
+        player = GameObject.Find("ExamplePlayer");
+        
     }
 
 
     void Update(){
+        if (locations == null){
+            return;
+        }
         Vector3 directionToPlayer = player.transform.position - transform.position;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
         if (angle < fieldOfView / 2)
@@ -44,12 +55,14 @@ public class EnemyAI : MonoBehaviour{
                 }
 
 
+            }else{
+                StartWandering();
             }
         }else{
             StartWandering();
         }
 
-            if (state == State.WANDERING && nav.remainingDistance < 0.6f){
+        if (state == State.WANDERING && nav.remainingDistance < 0.6f){
             nav.SetDestination(locations[++currentLocation % locations.Length].transform.position);
         }
         if (state == State.CHASING){
