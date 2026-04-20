@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour{
     private float slow = 3.5f;
     private float sightRange = 15f;
     private float fieldOfView = 90f;
+    private bool hardmode;
 
     public void setLocations(string[] newLocaitons){
         List<GameObject> tempLocations = new List<GameObject> { };
@@ -32,7 +33,14 @@ public class EnemyAI : MonoBehaviour{
         nav = GetComponent<NavMeshAgent>();
     }
     void Start(){
-        
+        hardmode = GameObject.Find("Difficulty").GetComponent<difficultyManager>().getDifficulty();
+        if (hardmode){
+            speed = 9f;
+            fast = 9f;
+            slow = 4.5f;
+            sightRange = 25f;
+            fieldOfView = 120f;
+        }
         player = GameObject.Find("ExamplePlayer");
         
     }
