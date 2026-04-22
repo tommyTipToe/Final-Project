@@ -44,7 +44,6 @@ public class AIStarter : MonoBehaviour
                 GameObject clone = Instantiate(prefab, position, prefab.transform.rotation);
                 clone.name = enemy + prefab.name + (i + 1);
                 targets.Add(clone.name);
-                Debug.Log(targets[i]);
                 clone.transform.SetParent(AItargets);
             }
 
@@ -72,7 +71,6 @@ public class AIStarter : MonoBehaviour
                 GameObject clone = Instantiate(prefab, position, prefab.transform.rotation);
                 clone.name = enemy + prefab.name + (i + 1);
                 targets.Add(clone.name);
-                Debug.Log(targets[i]);
                 clone.transform.SetParent(AItargets);
             }
 
@@ -98,7 +96,6 @@ public class AIStarter : MonoBehaviour
                 GameObject clone = Instantiate(prefab, position, prefab.transform.rotation);
                 clone.name = enemy + prefab.name + (i + 1);
                 targets.Add(clone.name);
-                Debug.Log(targets[i]);
                 clone.transform.SetParent(AItargets);
             }
 

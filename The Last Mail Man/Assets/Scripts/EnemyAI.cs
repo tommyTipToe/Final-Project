@@ -41,7 +41,7 @@ public class EnemyAI : MonoBehaviour{
             sightRange = 25f;
             fieldOfView = 120f;
         }
-        player = GameObject.Find("ExamplePlayer");
+        player = GameObject.Find("Car Body");
         
     }
 
