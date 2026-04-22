@@ -4,15 +4,8 @@ public class SlickCollision : MonoBehaviour
 {
     private bool isOnOil = false;
     private bool slow = false;
-    private GameObject enemy;
     private EnemyAI enemyAI; 
 
-
-    void Start()
-    {
-        enemy = GameObject.Find("Enemy");
-        enemyAI = enemy.GetComponent<EnemyAI>();
-    }
 
 
     void OnTriggerEnter(Collider collider)
@@ -24,6 +17,7 @@ public class SlickCollision : MonoBehaviour
         }
         if (collider.gameObject.tag == "Enemy")
         {
+            enemyAI = collider.gameObject.GetComponent<EnemyAI>();
             slow = true;
         }
     }
@@ -32,7 +26,7 @@ public class SlickCollision : MonoBehaviour
     {
         isOnOil = false;
         slow = false;
-        enemyAI.notSlowed();
+        enemyAI.setSlowed(false);
     }
 
     void Update()
@@ -42,7 +36,7 @@ public class SlickCollision : MonoBehaviour
             if (slow)
             {
                 
-                enemyAI.slowed();
+                enemyAI.setSlowed(true);
             }
         }
     }
