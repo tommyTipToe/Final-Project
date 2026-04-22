@@ -7,7 +7,6 @@ public class Timer : MonoBehaviour
     [SerializeField] TextMeshProUGUI timerText;
     float remainigTime = 120;
     private bool hardmode;
-    // Update is called once per frame
     void Start()
     {
         hardmode = GameObject.Find("Difficulty").GetComponent<difficultyManager>().getDifficulty();

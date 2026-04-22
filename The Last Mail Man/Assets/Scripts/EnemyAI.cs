@@ -4,7 +4,8 @@ using UnityEngine.AI;
 using System.Collections.Generic;
 
 
-public class EnemyAI : MonoBehaviour{
+public class EnemyAI : MonoBehaviour
+{
     enum State { WANDERING, CHASING }
 
     private GameObject[] locations;
@@ -16,78 +17,100 @@ public class EnemyAI : MonoBehaviour{
     private float speed = 7f;
     private float fast = 7f;
     private float slow = 3.5f;
-    private float sightRange = 15f;
+    private float fastChasing = 12f;
+    private float slowChasing = 6f;
+    private float sightRange = 30f;
     private float fieldOfView = 90f;
     private bool hardmode;
+    private bool slowed = false;
 
-    public void setLocations(string[] newLocaitons){
+    public void setLocations(string[] newLocaitons)
+    {
         List<GameObject> tempLocations = new List<GameObject> { };
-        for (int i = 0; i < newLocaitons.Length; i++){
+        for (int i = 0; i < newLocaitons.Length; i++)
+        {
             tempLocations.Add(GameObject.Find(newLocaitons[i]));
         }
         locations = tempLocations.ToArray();
         nav.SetDestination(locations[0].transform.position);
     }
 
-    void Awake(){
+    void Awake()
+    {
         nav = GetComponent<NavMeshAgent>();
     }
-    void Start(){
+    void Start()
+    {
         hardmode = GameObject.Find("Difficulty").GetComponent<difficultyManager>().getDifficulty();
-        if (hardmode){
-            speed = 9f;
-            fast = 9f;
-            slow = 4.5f;
-            sightRange = 25f;
+        if (hardmode)
+        {
+            speed = 8f;
+            fastChasing = 15f;
+            slowChasing = 7f;
+            fast = 8f;
+            slow = 4f;
+            sightRange = 50f;
             fieldOfView = 120f;
         }
-        player = GameObject.Find("Car Body");
-        
+        player = GameObject.FindWithTag("Player");
+
+
     }
 
 
-    void Update(){
-        if (locations == null){
+    void Update()
+    {
+        if (locations == null)
+        {
             return;
         }
-        Vector3 directionToPlayer = player.transform.position - transform.position;
+        checkSpeed();
+
+
+
+        Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
         float angle = Vector3.Angle(transform.forward, directionToPlayer);
+        Debug.DrawRay(transform.position, directionToPlayer * sightRange, Color.red);
         if (angle < fieldOfView / 2)
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, directionToPlayer, out hit, sightRange))
             {
-                if (hit.transform == player.transform)
+                if (hit.transform.root == player.transform)
                 {
                     StartChasing();
                 }
-
-
-            }else{
-                StartWandering();
+                else
+                {
+                    StartWandering();
+                }
             }
-        }else{
-            StartWandering();
+
         }
 
-        if (state == State.WANDERING && nav.remainingDistance < 0.6f){
+
+        if (state == State.WANDERING && nav.remainingDistance < 0.6f)
+        {
             nav.SetDestination(locations[++currentLocation % locations.Length].transform.position);
         }
-        if (state == State.CHASING){
+        if (state == State.CHASING)
+        {
             UpdateChasing();
         }
     }
 
 
 
-    void StartChasing(){
+    void StartChasing()
+    {
         if (state is State.CHASING) return;
         fieldOfView = 360f;
         SetState(State.CHASING);
     }
 
 
-    void StartWandering(){
+    void StartWandering()
+    {
         SetState(State.WANDERING);
         fieldOfView = 90f;
         nav.speed = speed;
@@ -95,21 +118,41 @@ public class EnemyAI : MonoBehaviour{
     }
 
 
-    void UpdateChasing(){
+    void UpdateChasing()
+    {
         nav.SetDestination(player.transform.position);
         nav.speed = speed;
     }
 
-    void SetState(State newState){
+    void SetState(State newState)
+    {
         state = newState;
         //Debug.Log(state);
     }
 
-    public void slowed(){
-        speed = slow;
+    public void setSlowed(bool slow)
+    {
+        slowed = slow;
     }
 
-    public void notSlowed(){
-        speed = fast;
+    void checkSpeed()
+    {
+        if (state == State.CHASING && slowed == false)
+        {
+            speed = fastChasing;
+        }
+        else if (state == State.CHASING && slowed == true)
+        {
+            speed = slowChasing;
+        }
+        else if (state == State.WANDERING && slowed == false)
+        {
+            speed = fast;
+        }
+        else if (state == State.WANDERING && slowed == true)
+        {
+            speed = slow;
+        }
+        
     }
 }

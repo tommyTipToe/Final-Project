@@ -26,7 +26,7 @@ public class SlickCollision : MonoBehaviour
     {
         isOnOil = false;
         slow = false;
-        enemyAI.notSlowed();
+        enemyAI.setSlowed(false);
     }
 
     void Update()
@@ -36,7 +36,7 @@ public class SlickCollision : MonoBehaviour
             if (slow)
             {
                 
-                enemyAI.slowed();
+                enemyAI.setSlowed(true);
             }
         }
     }
