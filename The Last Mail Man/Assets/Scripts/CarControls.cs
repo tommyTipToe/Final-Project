@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+
 
 public class CarControls : MonoBehaviour
 {
@@ -14,6 +16,15 @@ public class CarControls : MonoBehaviour
     private Rigidbody rigidBody;
 
     private CarInputActions carControls; // Reference to the new input system
+
+    private bool held = false;
+    [SerializeField] private GameObject oilPrefab;
+    [SerializeField] private GameObject oilImage;
+    [SerializeField] private GameObject oilImageCooldown;
+    [SerializeField] TextMeshProUGUI speedometer;
+
+    private bool onCooldown = false;
+    public bool boost = false;
 
     void Awake()
     {
@@ -32,6 +43,7 @@ public class CarControls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        oilImageCooldown.SetActive(false);
         rigidBody = GetComponent<Rigidbody>();
 
         // Adjust center of mass to improve stability and prevent rolling
@@ -49,14 +61,40 @@ public class CarControls : MonoBehaviour
         // Read the Vector2 input from the new Input System
         Vector2 inputVector = carControls.Car.Movement.ReadValue<Vector2>();
 
+        //Press space to drop an oilspill
+        bool oilInput = carControls.Car.Oil.IsPressed();
+        if (!onCooldown){
+            if (oilInput){
+                if (!held){
+                    held = true;
+                    Vector3 oilPosition = new Vector3(gameObject.transform.position.x, 0.01f, gameObject.transform.position.z);
+                    Instantiate(oilPrefab, oilPosition, oilPrefab.transform.rotation);
+                    onCooldown = true;
+                    oilImage.SetActive(false);
+                    oilImageCooldown.SetActive(true);
+                    Invoke(nameof(clearCooldown), 15f);
+                }
+            }
+            else{
+                held = false;
+            }
+        }
+        
+
         // Get player input for acceleration and steering
         float vInput = inputVector.y; // Forward/backward input
         float hInput = inputVector.x; // Steering input
-        
-        // Calculate current speed along the car's forward axis
-        float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.linearVelocity);
-        float speedFactor = Mathf.InverseLerp(0, maxSpeed, Mathf.Abs(forwardSpeed)); // Normalized speed factor
 
+        float forwardSpeed = 0f;
+        // Calculate current speed along the car's forward axis
+        if (boost){
+            forwardSpeed = Vector3.Dot(transform.forward, rigidBody.linearVelocity) * 1.2f;
+        }
+        else{
+            forwardSpeed = Vector3.Dot(transform.forward, rigidBody.linearVelocity);
+        }
+        float speedFactor = Mathf.InverseLerp(0, maxSpeed, Mathf.Abs(forwardSpeed)); // Normalized speed factor
+        speedometer.text = "Speed: " + Mathf.Round(forwardSpeed).ToString();
         // Reduce motor torque and steering at high speeds for better handling
         float currentMotorTorque = Mathf.Lerp(motorTorque, 0, speedFactor);
         float currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
@@ -89,6 +127,13 @@ public class CarControls : MonoBehaviour
                 wheel.WheelCollider.brakeTorque = Mathf.Abs(vInput) * brakeTorque;
             }
         }
+    }
+
+    void clearCooldown()
+    {
+        onCooldown = false;
+        oilImage.SetActive(true);
+        oilImageCooldown.SetActive(false);
     }
 
 

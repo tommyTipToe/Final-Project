@@ -6,7 +6,9 @@ using System.Collections.Generic;
 
 public class EnemyAI : MonoBehaviour
 {
-    enum State { WANDERING, CHASING }
+    enum State { WANDERING, CHASING, RETREATING}
+
+   
 
     private GameObject[] locations;
 
@@ -23,6 +25,7 @@ public class EnemyAI : MonoBehaviour
     private float fieldOfView = 90f;
     private bool hardmode;
     private bool slowed = false;
+    private Transform jail;
 
     public void setLocations(string[] newLocaitons)
     {
@@ -38,6 +41,7 @@ public class EnemyAI : MonoBehaviour
     void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
+        jail = GameObject.Find("JailDropOff").transform;
     }
     void Start()
     {
@@ -60,6 +64,19 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if(state == State.RETREATING)
+        {
+            if (nav.remainingDistance < 0.6f && nav.remainingDistance > 0f)
+            {
+                Debug.Log("Stole Package");
+                StartWandering();
+            }
+            else
+            {
+                return;
+            }
+            
+        }
         if (locations == null)
         {
             return;
@@ -85,7 +102,15 @@ public class EnemyAI : MonoBehaviour
                     StartWandering();
                 }
             }
+            else
+            {
+                StartWandering();
+            }
 
+        }
+        else
+        {
+            StartWandering();
         }
 
 
@@ -99,6 +124,15 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.transform.root.CompareTag("Player") && state != State.RETREATING){
+            Debug.Log("caught");
+            StartRetreating();
+            
+        }
+        
+    }
 
 
     void StartChasing()
@@ -117,11 +151,19 @@ public class EnemyAI : MonoBehaviour
         nav.SetDestination(locations[currentLocation % locations.Length].transform.position);
     }
 
+    void StartRetreating() {
+        SetState(State.RETREATING);
+        nav.speed = 12f;
+        nav.SetDestination(jail.position);
+        Debug.Log("Retreating");
+    }
+
 
     void UpdateChasing()
     {
         nav.SetDestination(player.transform.position);
         nav.speed = speed;
+
     }
 
     void SetState(State newState)
@@ -153,6 +195,7 @@ public class EnemyAI : MonoBehaviour
         {
             speed = slow;
         }
+
         
     }
 }
