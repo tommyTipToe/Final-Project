@@ -4,7 +4,9 @@ public class SlickCollision : MonoBehaviour
 {
     private bool isOnOil = false;
     private bool slow = false;
-    private EnemyAI enemyAI; 
+    private bool fast = false;
+    private EnemyAI enemyAI;
+    private CarControls carControls;
 
 
 
@@ -12,8 +14,9 @@ public class SlickCollision : MonoBehaviour
     {
         isOnOil = true;
 
-        if (collider.gameObject.tag == "Player"){
-
+        if (collider.transform.root.CompareTag("Player")){
+            fast = true;
+            carControls = collider.GetComponentInParent<CarControls>();
         }
         if (collider.gameObject.tag == "Enemy")
         {
@@ -26,7 +29,14 @@ public class SlickCollision : MonoBehaviour
     {
         isOnOil = false;
         slow = false;
-        enemyAI.setSlowed(false);
+        fast = false;
+        if (carControls)
+        {
+            Invoke(nameof(clearBoost), 10f);
+        }
+        if (enemyAI){
+            enemyAI.setSlowed(false);
+        }
     }
 
     void Update()
@@ -35,9 +45,19 @@ public class SlickCollision : MonoBehaviour
         {
             if (slow)
             {
-                
                 enemyAI.setSlowed(true);
             }
+            if (fast)
+            {
+                carControls.maxSpeed = 30f;
+                carControls.boost = true;
+            }
         }
+    }
+
+    void clearBoost()
+    {
+        carControls.maxSpeed = 20f;
+        carControls.boost = false;
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
@@ -25,7 +26,8 @@ public class Timer : MonoBehaviour
         else
         {
             remainigTime = 0;
-            //game over script;
+            SceneManager.LoadScene(1);
+
         }
         
         int minutes = Mathf.FloorToInt(remainigTime / 60);

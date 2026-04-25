@@ -14,6 +14,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Oil",
+                    "type": "Button",
+                    "id": "c29c8858-663e-4e17-a414-451adc3d7685",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -71,6 +80,17 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "f742ab79-cc31-48cf-8bcc-c1f6f5993040",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Oil",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
