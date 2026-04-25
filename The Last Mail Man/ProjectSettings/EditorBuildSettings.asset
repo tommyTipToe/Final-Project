@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 3f499dabf57e943fc85989a863e4d62b
+  - enabled: 1
     path: Assets/Scenes/BasicSuburbiaMap.unity
     guid: 988c6908b32b8bc419849b28bf7b0797
   - enabled: 1

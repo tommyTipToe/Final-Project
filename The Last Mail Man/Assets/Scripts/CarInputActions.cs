@@ -109,6 +109,15 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""fb259cca-2af3-4924-85fe-48844ec1029e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -177,6 +186,17 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Oil"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""607f78c6-ae85-4d56-baf3-082362f3bed5"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,6 +207,7 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
         m_Car = asset.FindActionMap("Car", throwIfNotFound: true);
         m_Car_Movement = m_Car.FindAction("Movement", throwIfNotFound: true);
         m_Car_Oil = m_Car.FindAction("Oil", throwIfNotFound: true);
+        m_Car_Pause = m_Car.FindAction("Pause", throwIfNotFound: true);
     }
 
     ~@CarInputActions()
@@ -269,6 +290,7 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
     private List<ICarActions> m_CarActionsCallbackInterfaces = new List<ICarActions>();
     private readonly InputAction m_Car_Movement;
     private readonly InputAction m_Car_Oil;
+    private readonly InputAction m_Car_Pause;
     /// <summary>
     /// Provides access to input actions defined in input action map "Car".
     /// </summary>
@@ -288,6 +310,10 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Car/Oil".
         /// </summary>
         public InputAction @Oil => m_Wrapper.m_Car_Oil;
+        /// <summary>
+        /// Provides access to the underlying input action "Car/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_Car_Pause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -320,6 +346,9 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
             @Oil.started += instance.OnOil;
             @Oil.performed += instance.OnOil;
             @Oil.canceled += instance.OnOil;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         /// <summary>
@@ -337,6 +366,9 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
             @Oil.started -= instance.OnOil;
             @Oil.performed -= instance.OnOil;
             @Oil.canceled -= instance.OnOil;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         /// <summary>
@@ -391,5 +423,12 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnOil(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause(InputAction.CallbackContext context);
     }
 }
