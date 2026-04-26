@@ -11,6 +11,9 @@ public class CarControls : MonoBehaviour
     public float steeringRange = 30f;
     public float steeringRangeAtMaxSpeed = 10f;
     public float centreOfGravityOffset = -1f;
+    public float earnedPoints = 0.0f;
+    public float transitPoints = 0.0f;
+    public float jailPoints = 0.0f;
 
     private WheelControl[] wheels;
     private Rigidbody rigidBody;
@@ -22,6 +25,8 @@ public class CarControls : MonoBehaviour
     [SerializeField] private GameObject oilImage;
     [SerializeField] private GameObject oilImageCooldown;
     [SerializeField] TextMeshProUGUI speedometer;
+    [SerializeField] TextMeshProUGUI score;
+    [SerializeField] TextMeshProUGUI packagesHeld;
 
     private bool onCooldown = false;
     public bool boost = false;
@@ -60,6 +65,8 @@ public class CarControls : MonoBehaviour
     {
         // Read the Vector2 input from the new Input System
         Vector2 inputVector = carControls.Car.Movement.ReadValue<Vector2>();
+
+        packagesHeld.text = "Packages: " + (int)(transitPoints / 15f);
 
         //Press space to drop an oilspill
         bool oilInput = carControls.Car.Oil.IsPressed();
@@ -135,6 +142,22 @@ public class CarControls : MonoBehaviour
         oilImage.SetActive(true);
         oilImageCooldown.SetActive(false);
     }
+
+    public void changeEarnedScore(float pts)
+    {
+        earnedPoints += pts;
+        GameManager.instance.score += (int)pts;
+        score.text = "Score: " + GameManager.instance.score;
+    }
+    public void changeTransitScore(float pts)
+    {
+        transitPoints += pts;
+    }
+    public void changeJailScore(float pts)
+    {
+        jailPoints += pts;
+    }
+
 
 
 }

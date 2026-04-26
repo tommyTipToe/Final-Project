@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class WeatherManager : MonoBehaviour
 {
-    [SerializeField]private float windSpeed = 3250f;
+    [SerializeField]private float windSpeed = 3000f;
     [SerializeField]private bool fog = false;
     //[SerializeField]private float timer = 15; // Seconds
     [SerializeField]private Vector3 direction = new Vector3(1,0,0);
