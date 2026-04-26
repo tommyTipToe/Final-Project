@@ -32,6 +32,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DebugAddScore",
+                    "type": "Button",
+                    "id": "1a2d69b9-da93-436e-8638-6557b7d134a9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -109,6 +118,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52c00ac0-c0d6-4961-a4bf-bdc8dec8a2b7",
+                    "path": "<Keyboard>/backslash",
+                    "interactions": "SlowTap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugAddScore",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

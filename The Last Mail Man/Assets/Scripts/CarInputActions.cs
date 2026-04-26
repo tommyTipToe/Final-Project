@@ -118,6 +118,15 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DebugAddScore"",
+                    ""type"": ""Button"",
+                    ""id"": ""1a2d69b9-da93-436e-8638-6557b7d134a9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -197,6 +206,17 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52c00ac0-c0d6-4961-a4bf-bdc8dec8a2b7"",
+                    ""path"": ""<Keyboard>/backslash"",
+                    ""interactions"": ""SlowTap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugAddScore"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +228,7 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
         m_Car_Movement = m_Car.FindAction("Movement", throwIfNotFound: true);
         m_Car_Oil = m_Car.FindAction("Oil", throwIfNotFound: true);
         m_Car_Pause = m_Car.FindAction("Pause", throwIfNotFound: true);
+        m_Car_DebugAddScore = m_Car.FindAction("DebugAddScore", throwIfNotFound: true);
     }
 
     ~@CarInputActions()
@@ -291,6 +312,7 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Car_Movement;
     private readonly InputAction m_Car_Oil;
     private readonly InputAction m_Car_Pause;
+    private readonly InputAction m_Car_DebugAddScore;
     /// <summary>
     /// Provides access to input actions defined in input action map "Car".
     /// </summary>
@@ -314,6 +336,10 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Car/Pause".
         /// </summary>
         public InputAction @Pause => m_Wrapper.m_Car_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action "Car/DebugAddScore".
+        /// </summary>
+        public InputAction @DebugAddScore => m_Wrapper.m_Car_DebugAddScore;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -349,6 +375,9 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @DebugAddScore.started += instance.OnDebugAddScore;
+            @DebugAddScore.performed += instance.OnDebugAddScore;
+            @DebugAddScore.canceled += instance.OnDebugAddScore;
         }
 
         /// <summary>
@@ -369,6 +398,9 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @DebugAddScore.started -= instance.OnDebugAddScore;
+            @DebugAddScore.performed -= instance.OnDebugAddScore;
+            @DebugAddScore.canceled -= instance.OnDebugAddScore;
         }
 
         /// <summary>
@@ -430,5 +462,12 @@ public partial class @CarInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DebugAddScore" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDebugAddScore(InputAction.CallbackContext context);
     }
 }

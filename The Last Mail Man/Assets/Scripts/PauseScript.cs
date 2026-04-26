@@ -13,6 +13,9 @@ public class PauseScript : MonoBehaviour
             container.SetActive(true);
             Time.timeScale = 0;
         }
+        if (carControls.Car.DebugAddScore.IsPressed()) {
+            GameManager.instance.AddScore(1000);
+        }
     }
 
     void Awake()
