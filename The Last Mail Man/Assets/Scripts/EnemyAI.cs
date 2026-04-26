@@ -45,7 +45,8 @@ public class EnemyAI : MonoBehaviour
     }
     void Start()
     {
-        hardmode = GameObject.Find("Difficulty").GetComponent<difficultyManager>().getDifficulty();
+        // hardmode = GameObject.Find("Difficulty").GetComponent<difficultyManager>().getDifficulty();
+        hardmode = GameManager.instance.hard.isOn;
         if (hardmode)
         {
             speed = 8f;

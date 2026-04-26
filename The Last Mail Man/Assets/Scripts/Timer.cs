@@ -10,7 +10,8 @@ public class Timer : MonoBehaviour
     private bool hardmode;
     void Start()
     {
-        hardmode = GameObject.Find("Difficulty").GetComponent<difficultyManager>().getDifficulty();
+        //hardmode = GameObject.Find("Difficulty").GetComponent<difficultyManager>().getDifficulty();
+        hardmode = GameManager.instance.hard.isOn;
         if (hardmode){
             remainigTime = 90;
         }
