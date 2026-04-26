@@ -2,23 +2,60 @@ using UnityEngine;
 
 public class PickupLogic : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   void Start()
+      //the delivery object that handles the package logic
+   taskDatabase delObject;
+
+   private void Awake()
    {
-       
+      delObject = FindFirstObjectByType<taskDatabase>();
+      collect();
    }
 
-    // Update is called once per frame
-   void Update()
+   private void OnTriggerEnter(Collider other)
    {
-      //Debug.Log("YES");    
+      //if(other.gameObject.tag == "Player")   
+      if(other.transform.root.CompareTag("Player")) 
+      Destroy(this.gameObject);
    }
 
-   void OnTriggerEnter(Collider other)
+
+
+      //task object is an object that needs to be colliding with
+   private void collect()
    {
-      if(other.gameObject.tag == "Package")
+      taskAssign(taskDatabase.ezDelivery.head);
+      taskAssign(taskDatabase.meDelivery.head);
+      taskAssign(taskDatabase.hdDelivery.head);
+   }
+
+   private void taskAssign(taskDatabase.taskNode currHead)
+   {
+
+      for(int i = 0;i < 2; i++)
       {
-         Destroy(other.gameObject);
+         if(findPick(currHead.pickUp.head))
+            return;
+	 currHead = currHead.next;
       }
+   }
+
+   private bool findPick(taskDatabase.pickNode currHead)
+   {
+      if(currHead != null)
+      {
+         for(int i = 0;i < 3;i++)
+         {
+            if(currHead.theBox == this.gameObject)
+	    {
+               currHead.hasObject = true;
+	       gameObject.SetActive(false);
+	       return true;
+	    }
+	    currHead = currHead.next;
+         }
+      }
+      else
+         Debug.LogError("PICKUP HEAD DNE");
+      return false;
    }
 }

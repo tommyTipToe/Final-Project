@@ -3022,7 +3022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a93d198d443d4b99baf7f649948ce85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeatherManager
-  windSpeed: 30
+  windSpeed: 3250
   fog: 0
   direction: {x: 1, y: 0, z: 0}
   gravity: {x: 0, y: -10, z: 0}
