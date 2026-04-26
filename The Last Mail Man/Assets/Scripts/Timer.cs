@@ -27,8 +27,12 @@ public class Timer : MonoBehaviour
         else
         {
             remainigTime = 0;
-            SceneManager.LoadScene(1);
-
+            if(GameManager.instance.score >= 500) {
+                SceneManager.LoadScene(3);
+            }
+            else {
+                SceneManager.LoadScene(2);
+            }
         }
         
         int minutes = Mathf.FloorToInt(remainigTime / 60);

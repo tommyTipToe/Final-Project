@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,16 +28,34 @@ public class GameManager : MonoBehaviour
 
     void Awake() {
 
-        // if(instance != null) {
-        //     Destroy(gameObject);
-        //     return;
-        // }
+        if(instance != null) {
+            Destroy(gameObject);
+            return;
+        }
 
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Update() {
-        
+    void OnEnable() {
+        // Subscribe to the event
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
+
+    void OnDisable() {
+        // Unsubscribe to avoid memory leaks
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
+        if(scene.buildIndex == 0) {
+            hard = GameObject.Find("DifficultyToggle").GetComponent<Toggle>();
+            score = 0;
+        }
+    }
+
+    public void AddScore(int a) {
+        score += a;
+        Debug.Log("Score updated: " + score);
     }
 }
