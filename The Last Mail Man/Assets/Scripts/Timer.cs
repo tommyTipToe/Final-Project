@@ -12,6 +12,7 @@ public class Timer : MonoBehaviour
     private float[] xwind = {1, -1, -1, 1};
     private float[] zwind = {-1, -1, 1, 1};
     private int index = 0;
+    public GameObject arrow;
 
     void Start()
     {

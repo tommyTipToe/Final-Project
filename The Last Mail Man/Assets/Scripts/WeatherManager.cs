@@ -41,12 +41,10 @@ public class WeatherManager : MonoBehaviour
 
     // Call this in the GameManager that holds the gametime so we don't change the wind too often
     public void ChangeWind(float n) {
-        Debug.Log("Setting wind to " + n);
         windSpeed = n;
     }
 
     public void ChangeWind(Vector3 dir) {
-        Debug.Log("Setting wind direction to " + dir);
         direction = dir;
     }
 
