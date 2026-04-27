@@ -6,8 +6,8 @@ using System.Linq;
 public partial class taskDatabase
 {
 
-   public static int[] intPackage = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
-   public static GameObject[] destList = new GameObject[9];   
+   public static int[] intPackage = {-1, -1, -1, -1, -1, -1};
+   public static GameObject[] destList = new GameObject[9];
 
                                             //PICKUPLIST DROPOFF PAYOUT DIFFICULTY
 public static taskNode[] ezTasks = {        new taskNode(null, null, EZ_PAY, 0),
@@ -83,7 +83,7 @@ public static taskNode[] ezTasks = {        new taskNode(null, null, EZ_PAY, 0),
         for (int i = 0; i < possiblePick.Length - 1; i++)
         {
             possiblePick[i].GetComponent<packageSpawn>().spawn();
-            setFalse(possiblePick[i].transform.GetChild(0).gameObject);
+            //setFalse(possiblePick[i].transform.GetChild(0).gameObject);
         }
 
         //spawnObj = FindObjectOfType<packageSpawn>();
@@ -201,16 +201,16 @@ public static taskNode[] ezTasks = {        new taskNode(null, null, EZ_PAY, 0),
         int index = 0;
         int whileIters = 0;
         //chunks through intPackages and doesn't increase the index unless it's a different value
-        while (intPackage[8] == -1)
+        while (index < 6)
         {
             int rng = Random.Range(0, possiblePick.Length - 1);
 
             if (!(intPackage.AsQueryable().Any(val => val == rng)))
             {
                 intPackage[index] = rng;
-                index++;
             }
-
+            index++;
+            Debug.Log(intPackage[0]);
 
             if (whileIters++ > 1000000000)
             {

@@ -2,20 +2,26 @@ using UnityEngine;
 
 public class PickupLogic : MonoBehaviour
 {
-      //the delivery object that handles the package logic
-   taskDatabase delObject;
+    //the delivery object that handles the package logic
+    //taskDatabase delObject;
+
+    public CarControls player;
 
    private void Awake()
    {
-      delObject = FindFirstObjectByType<taskDatabase>();
-      collect();
+      //delObject = FindFirstObjectByType<taskDatabase>();
+      //collect();
    }
 
    private void OnTriggerEnter(Collider other)
    {
       //if(other.gameObject.tag == "Player")   
-      if(other.transform.root.CompareTag("Player")) 
-      Destroy(this.gameObject);
+      if(other.transform.root.CompareTag("Player"))
+        {
+            player.changeTransitScore(15.0f);
+            Destroy(this.gameObject);
+        }
+      
    }
 
 

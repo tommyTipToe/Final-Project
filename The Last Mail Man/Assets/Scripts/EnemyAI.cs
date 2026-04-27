@@ -26,6 +26,7 @@ public class EnemyAI : MonoBehaviour
     private bool hardmode;
     private bool slowed = false;
     private Transform jail;
+    private bool carrying = false;
 
     public void setLocations(string[] newLocaitons)
     {
@@ -69,7 +70,11 @@ public class EnemyAI : MonoBehaviour
         {
             if (nav.remainingDistance < 0.6f && nav.remainingDistance > 0f)
             {
-                Debug.Log("Stole Package");
+                if (carrying)
+                {
+                    player.GetComponent<CarControls>().changeJailScore(15f);
+                    carrying = false;
+                }
                 StartWandering();
             }
             else
@@ -128,7 +133,10 @@ public class EnemyAI : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         if (collider.transform.root.CompareTag("Player") && state != State.RETREATING){
-            Debug.Log("caught");
+            if(player.GetComponent<CarControls>().transitPoints > 0){
+                player.GetComponent<CarControls>().changeTransitScore(-15f);
+                carrying = true;
+            }
             StartRetreating();
             
         }
@@ -156,7 +164,6 @@ public class EnemyAI : MonoBehaviour
         SetState(State.RETREATING);
         nav.speed = 12f;
         nav.SetDestination(jail.position);
-        Debug.Log("Retreating");
     }
 
 

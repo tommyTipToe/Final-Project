@@ -5,25 +5,33 @@ public class DropoffLogic : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
 	
-   private static taskDatabase delObject;
-	
+   //private static taskDatabase delObject;
+   public CarControls player;	
 
     void Start()
     {
-       delObject = FindFirstObjectByType<taskDatabase>();
+       //delObject = FindFirstObjectByType<taskDatabase>();
     }
 
 
-private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player") // && taskTracker.currTaskVar != taskTracker.CurrTaskType.unassigned
-        {
-            endTask(taskDatabase.ezDelivery.head);
-            endTask(taskDatabase.meDelivery.head);
-            endTask(taskDatabase.hdDelivery.head);
+	    Debug.Log("HIT");
+        //if (other.gameObject.tag == "Player") // && taskTracker.currTaskVar != taskTracker.CurrTaskType.unassigned
+        if(other.transform.root.CompareTag("Player"))
+	{
+            player.changeEarnedScore(player.transitPoints);
+            player.transitPoints = 0;
+	    //endTask(taskDatabase.ezDelivery.head);
+            //endTask(taskDatabase.meDelivery.head);
+            //endTask(taskDatabase.hdDelivery.head);
             //print(count(delObject.delivery.head));
         }
     }
+
+   
+
+
 
     private static int count(taskDatabase.taskNode header)
     {

@@ -6,8 +6,7 @@ public class Timer : MonoBehaviour
 {
 
     [SerializeField] TextMeshProUGUI timerText;
-    [SerializeField] GameObject arrow;
-    float remainingTime = 120;
+    float remainingTime = 150;
     private bool hardmode;
     private bool triggered = false;
     private float[] xwind = {1, -1, -1, 1};
@@ -19,7 +18,7 @@ public class Timer : MonoBehaviour
         //hardmode = GameObject.Find("Difficulty").GetComponent<difficultyManager>().getDifficulty();
         hardmode = GameManager.instance.hard.isOn;
         if (hardmode){
-            remainingTime = 90;
+            remainingTime = 120;
         }
             
     }
@@ -51,7 +50,7 @@ public class Timer : MonoBehaviour
         else
         {
             remainingTime = 0;
-            if(GameManager.instance.score >= 500) {
+            if(GameManager.instance.score >= 30) {
                 SceneManager.LoadScene(3);
             }
             else {
