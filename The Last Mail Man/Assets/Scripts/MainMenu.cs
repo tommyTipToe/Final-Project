@@ -4,9 +4,15 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     
-    public void LoadGame() {
-        // Changes scene to the game
+    public void LoadSuburbs() {
+        // Changes scene to the suburbs scene
         SceneManager.LoadScene(1);
+        Time.timeScale = 1;
+    }
+
+    public void LoadMoon() {
+        // Changes scene to the moon scene
+        SceneManager.LoadScene(4);
         Time.timeScale = 1;
     }
 

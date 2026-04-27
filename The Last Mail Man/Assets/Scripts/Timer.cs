@@ -9,8 +9,8 @@ public class Timer : MonoBehaviour
     float remainingTime = 150;
     private bool hardmode;
     private bool triggered = false;
-    private float[] xwind = {1, 1, -1, -1};
-    private float[] zwind = { 1, -1, 1, -1 };
+    private float[] xwind = {1, -1, -1, 1};
+    private float[] zwind = {-1, -1, 1, 1};
     private int index = 0;
 
     void Start()
@@ -37,6 +37,8 @@ public class Timer : MonoBehaviour
                     WeatherManager.instance.ChangeWind(change);
                     triggered = true;
                     index++;
+
+                    arrow.GetComponent<ArrowRotator>().ChangeTarget(change);
                 }
             }
             else

@@ -118,10 +118,10 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistortionBlend: 0.5
+    - _DistortionBlend: 0.2
     - _DistortionEnabled: 0
-    - _DistortionStrength: 1
-    - _DistortionStrengthScaled: 0.1
+    - _DistortionStrength: 100
+    - _DistortionStrengthScaled: 10
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
@@ -139,8 +139,8 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 1
-    - _SoftParticlesFarFadeDistance: 15
-    - _SoftParticlesNearFadeDistance: 4
+    - _SoftParticlesFarFadeDistance: 17
+    - _SoftParticlesNearFadeDistance: 3
     - _SpecularHighlights: 1
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
@@ -154,7 +154,7 @@ Material:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SoftParticleFadeParams: {r: 4, g: 0.09090909, b: 0, a: 0}
+    - _SoftParticleFadeParams: {r: 3, g: 0.071428575, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
